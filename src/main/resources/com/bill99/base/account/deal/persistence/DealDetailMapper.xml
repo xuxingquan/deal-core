@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bill99.base.account.deal.infrastructure.persistence.DealDetailMapper">
+  <resultMap id="BaseResultMap" type="com.bill99.base.account.deal.domain.entity.DealDetail">
+    <id column="sub_id" jdbcType="BIGINT" property="subId" />
+    <result column="flow_id" jdbcType="VARCHAR" property="flowId" />
+    <result column="orig_flow_id" jdbcType="VARCHAR" property="origFlowId" />
+    <result column="member_code" jdbcType="BIGINT" property="memberCode" />
+    <result column="sub_acct_type" jdbcType="VARCHAR" property="subAcctType" />
+    <result column="sub_acct_subject_code" jdbcType="VARCHAR" property="subAcctSubjectCode" />
+    <result column="amount" jdbcType="BIGINT" property="amount" />
+    <result column="direction" jdbcType="INTEGER" property="direction" />
+    <result column="currency_code" jdbcType="VARCHAR" property="currencyCode" />
+    <result column="postdeal_balance" jdbcType="BIGINT" property="postdealBalance" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="request_time" jdbcType="TIMESTAMP" property="requestTime" />
+    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="upd_time" jdbcType="TIMESTAMP" property="updTime" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    <result column="ext4" jdbcType="VARCHAR" property="ext4" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="allow_with_draw_amount" jdbcType="BIGINT" property="allowWithDrawAmount" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sub_id, flow_id, orig_flow_id, member_code, sub_acct_type, sub_acct_subject_code, 
+    amount, direction, currency_code, postdeal_balance, memo, request_time, crt_time, 
+    upd_time, ext1, ext2, ext3, ext4, version, allow_with_draw_amount
+  </sql>
+  <select id="selectByExample" parameterType="com.bill99.base.account.deal.domain.entity.DealDetailExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_finder_base_account_deal_detail
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_finder_base_account_deal_detail
+    where sub_id = #{subId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_finder_base_account_deal_detail
+    where sub_id = #{subId,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bill99.base.account.deal.domain.entity.DealDetail">
+    <selectKey keyProperty="subId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_finder_base_account_deal_detail (flow_id, orig_flow_id, member_code, 
+      sub_acct_type, sub_acct_subject_code, amount, 
+      direction, currency_code, postdeal_balance, 
+      memo, request_time, crt_time, 
+      upd_time, ext1, ext2, 
+      ext3, ext4, version, 
+      allow_with_draw_amount)
+    values (#{flowId,jdbcType=VARCHAR}, #{origFlowId,jdbcType=VARCHAR}, #{memberCode,jdbcType=BIGINT}, 
+      #{subAcctType,jdbcType=VARCHAR}, #{subAcctSubjectCode,jdbcType=VARCHAR}, #{amount,jdbcType=BIGINT}, 
+      #{direction,jdbcType=INTEGER}, #{currencyCode,jdbcType=VARCHAR}, #{postdealBalance,jdbcType=BIGINT}, 
+      #{memo,jdbcType=VARCHAR}, #{requestTime,jdbcType=TIMESTAMP}, #{crtTime,jdbcType=TIMESTAMP}, 
+      #{updTime,jdbcType=TIMESTAMP}, #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, 
+      #{ext3,jdbcType=VARCHAR}, #{ext4,jdbcType=VARCHAR}, #{version,jdbcType=INTEGER}, 
+      #{allowWithDrawAmount,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bill99.base.account.deal.domain.entity.DealDetail">
+    <selectKey keyProperty="subId" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_finder_base_account_deal_detail
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="flowId != null">
+        flow_id,
+      </if>
+      <if test="origFlowId != null">
+        orig_flow_id,
+      </if>
+      <if test="memberCode != null">
+        member_code,
+      </if>
+      <if test="subAcctType != null">
+        sub_acct_type,
+      </if>
+      <if test="subAcctSubjectCode != null">
+        sub_acct_subject_code,
+      </if>
+      <if test="amount != null">
+        amount,
+      </if>
+      <if test="direction != null">
+        direction,
+      </if>
+      <if test="currencyCode != null">
+        currency_code,
+      </if>
+      <if test="postdealBalance != null">
+        postdeal_balance,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="requestTime != null">
+        request_time,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+      <if test="updTime != null">
+        upd_time,
+      </if>
+      <if test="ext1 != null">
+        ext1,
+      </if>
+      <if test="ext2 != null">
+        ext2,
+      </if>
+      <if test="ext3 != null">
+        ext3,
+      </if>
+      <if test="ext4 != null">
+        ext4,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="allowWithDrawAmount != null">
+        allow_with_draw_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="flowId != null">
+        #{flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="origFlowId != null">
+        #{origFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCode != null">
+        #{memberCode,jdbcType=BIGINT},
+      </if>
+      <if test="subAcctType != null">
+        #{subAcctType,jdbcType=VARCHAR},
+      </if>
+      <if test="subAcctSubjectCode != null">
+        #{subAcctSubjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="direction != null">
+        #{direction,jdbcType=INTEGER},
+      </if>
+      <if test="currencyCode != null">
+        #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postdealBalance != null">
+        #{postdealBalance,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="allowWithDrawAmount != null">
+        #{allowWithDrawAmount,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_finder_base_account_deal_detail
+    <set>
+      <if test="record.subId != null">
+        sub_id = #{record.subId,jdbcType=BIGINT},
+      </if>
+      <if test="record.flowId != null">
+        flow_id = #{record.flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origFlowId != null">
+        orig_flow_id = #{record.origFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberCode != null">
+        member_code = #{record.memberCode,jdbcType=BIGINT},
+      </if>
+      <if test="record.subAcctType != null">
+        sub_acct_type = #{record.subAcctType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subAcctSubjectCode != null">
+        sub_acct_subject_code = #{record.subAcctSubjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.amount != null">
+        amount = #{record.amount,jdbcType=BIGINT},
+      </if>
+      <if test="record.direction != null">
+        direction = #{record.direction,jdbcType=INTEGER},
+      </if>
+      <if test="record.currencyCode != null">
+        currency_code = #{record.currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.postdealBalance != null">
+        postdeal_balance = #{record.postdealBalance,jdbcType=BIGINT},
+      </if>
+      <if test="record.memo != null">
+        memo = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestTime != null">
+        request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.crtTime != null">
+        crt_time = #{record.crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updTime != null">
+        upd_time = #{record.updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext1 != null">
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null">
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null">
+        ext3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext4 != null">
+        ext4 = #{record.ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.allowWithDrawAmount != null">
+        allow_with_draw_amount = #{record.allowWithDrawAmount,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_finder_base_account_deal_detail
+    set sub_id = #{record.subId,jdbcType=BIGINT},
+      flow_id = #{record.flowId,jdbcType=VARCHAR},
+      orig_flow_id = #{record.origFlowId,jdbcType=VARCHAR},
+      member_code = #{record.memberCode,jdbcType=BIGINT},
+      sub_acct_type = #{record.subAcctType,jdbcType=VARCHAR},
+      sub_acct_subject_code = #{record.subAcctSubjectCode,jdbcType=VARCHAR},
+      amount = #{record.amount,jdbcType=BIGINT},
+      direction = #{record.direction,jdbcType=INTEGER},
+      currency_code = #{record.currencyCode,jdbcType=VARCHAR},
+      postdeal_balance = #{record.postdealBalance,jdbcType=BIGINT},
+      memo = #{record.memo,jdbcType=VARCHAR},
+      request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      crt_time = #{record.crtTime,jdbcType=TIMESTAMP},
+      upd_time = #{record.updTime,jdbcType=TIMESTAMP},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      ext3 = #{record.ext3,jdbcType=VARCHAR},
+      ext4 = #{record.ext4,jdbcType=VARCHAR},
+      version = #{record.version,jdbcType=INTEGER},
+      allow_with_draw_amount = #{record.allowWithDrawAmount,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bill99.base.account.deal.domain.entity.DealDetail">
+    update t_finder_base_account_deal_detail
+    <set>
+      <if test="flowId != null">
+        flow_id = #{flowId,jdbcType=VARCHAR},
+      </if>
+      <if test="origFlowId != null">
+        orig_flow_id = #{origFlowId,jdbcType=VARCHAR},
+      </if>
+      <if test="memberCode != null">
+        member_code = #{memberCode,jdbcType=BIGINT},
+      </if>
+      <if test="subAcctType != null">
+        sub_acct_type = #{subAcctType,jdbcType=VARCHAR},
+      </if>
+      <if test="subAcctSubjectCode != null">
+        sub_acct_subject_code = #{subAcctSubjectCode,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null">
+        amount = #{amount,jdbcType=BIGINT},
+      </if>
+      <if test="direction != null">
+        direction = #{direction,jdbcType=INTEGER},
+      </if>
+      <if test="currencyCode != null">
+        currency_code = #{currencyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="postdealBalance != null">
+        postdeal_balance = #{postdealBalance,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        request_time = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        upd_time = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null">
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        ext4 = #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="allowWithDrawAmount != null">
+        allow_with_draw_amount = #{allowWithDrawAmount,jdbcType=BIGINT},
+      </if>
+    </set>
+    where sub_id = #{subId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bill99.base.account.deal.domain.entity.DealDetail">
+    update t_finder_base_account_deal_detail
+    set flow_id = #{flowId,jdbcType=VARCHAR},
+      orig_flow_id = #{origFlowId,jdbcType=VARCHAR},
+      member_code = #{memberCode,jdbcType=BIGINT},
+      sub_acct_type = #{subAcctType,jdbcType=VARCHAR},
+      sub_acct_subject_code = #{subAcctSubjectCode,jdbcType=VARCHAR},
+      amount = #{amount,jdbcType=BIGINT},
+      direction = #{direction,jdbcType=INTEGER},
+      currency_code = #{currencyCode,jdbcType=VARCHAR},
+      postdeal_balance = #{postdealBalance,jdbcType=BIGINT},
+      memo = #{memo,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR},
+      ext4 = #{ext4,jdbcType=VARCHAR},
+      version = #{version,jdbcType=INTEGER},
+      allow_with_draw_amount = #{allowWithDrawAmount,jdbcType=BIGINT}
+    where sub_id = #{subId,jdbcType=BIGINT}
+  </update>
+</mapper>

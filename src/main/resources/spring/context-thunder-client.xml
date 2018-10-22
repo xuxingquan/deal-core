@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thunder="http://www.99bill.com/schema/thunder"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+           http://www.99bill.com/schema/thunder http://www.99bill.com/schema/thunder/thunder-2.0.xsd">
+
+	<thunder:application id="thunderApplication" appName="app-finder-deal-core" group="FINDER" />
+	<thunder:registry id="thunderRegistry" />
+	<thunder:monitor id="thunderMonitor" />
+
+	<thunder:reference id="uniqueService" interface="com.bill99.inf.unique.service.UniqueService"
+		timeout="2000"></thunder:reference>
+	
+	<bean id="uniqueModuleService" class="com.bill99.inf.unique.UniqueModuleService">
+		<!-- prefix必须配置并且值不能为空字符串，否则启动报错 -->
+		<property name="prefix" value="app-finder-deal-core"></property>
+		<property name="uniqueService" ref="uniqueService"></property>
+	</bean>
+
+</beans>

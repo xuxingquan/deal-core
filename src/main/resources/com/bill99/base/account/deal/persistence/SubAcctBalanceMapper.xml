@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bill99.base.account.deal.infrastructure.persistence.SubAcctBalanceMapper">
+  <resultMap id="BaseResultMap" type="com.bill99.base.account.deal.domain.entity.SubAcctBalance">
+    <id column="sub_acct_id" jdbcType="VARCHAR" property="subAcctId" />
+    <result column="sub_acct_balance" jdbcType="BIGINT" property="subAcctBalance" />
+    <result column="CREDITBALANCE" jdbcType="BIGINT" property="creditbalance" />
+    <result column="DEBITBALANCE" jdbcType="BIGINT" property="debitbalance" />
+    <result column="FROZENBALANCE" jdbcType="BIGINT" property="frozenbalance" />
+    <result column="CRT_TIME" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="UPD_TIME" jdbcType="TIMESTAMP" property="updTime" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    <result column="ext4" jdbcType="VARCHAR" property="ext4" />
+    <result column="ext5" jdbcType="VARCHAR" property="ext5" />
+    <result column="allow_withDraw_balance" jdbcType="BIGINT" property="allowWithdrawBalance" />
+    <result column="version" jdbcType="BIGINT" property="version" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    sub_acct_id, sub_acct_balance, CREDITBALANCE, DEBITBALANCE, FROZENBALANCE, CRT_TIME, 
+    UPD_TIME, ext1, ext2, ext3, ext4, ext5, allow_withDraw_balance, version
+  </sql>
+  <select id="selectByExample" parameterType="com.bill99.base.account.deal.domain.entity.SubAcctBalanceExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_finder_sub_account_balance
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_finder_sub_account_balance
+    where sub_acct_id = #{subAcctId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from t_finder_sub_account_balance
+    where sub_acct_id = #{subAcctId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bill99.base.account.deal.domain.entity.SubAcctBalance">
+    <selectKey keyProperty="subAcctId" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_finder_sub_account_balance (sub_acct_balance, CREDITBALANCE, DEBITBALANCE, 
+      FROZENBALANCE, CRT_TIME, UPD_TIME, 
+      ext1, ext2, ext3, ext4, 
+      ext5, allow_withDraw_balance, version
+      )
+    values (#{subAcctBalance,jdbcType=BIGINT}, #{creditbalance,jdbcType=BIGINT}, #{debitbalance,jdbcType=BIGINT}, 
+      #{frozenbalance,jdbcType=BIGINT}, #{crtTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP}, 
+      #{ext1,jdbcType=VARCHAR}, #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{ext4,jdbcType=VARCHAR}, 
+      #{ext5,jdbcType=VARCHAR}, #{allowWithdrawBalance,jdbcType=BIGINT}, #{version,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bill99.base.account.deal.domain.entity.SubAcctBalance">
+    <selectKey keyProperty="subAcctId" order="AFTER" resultType="java.lang.String">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_finder_sub_account_balance
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="subAcctBalance != null">
+        sub_acct_balance,
+      </if>
+      <if test="creditbalance != null">
+        CREDITBALANCE,
+      </if>
+      <if test="debitbalance != null">
+        DEBITBALANCE,
+      </if>
+      <if test="frozenbalance != null">
+        FROZENBALANCE,
+      </if>
+      <if test="crtTime != null">
+        CRT_TIME,
+      </if>
+      <if test="updTime != null">
+        UPD_TIME,
+      </if>
+      <if test="ext1 != null">
+        ext1,
+      </if>
+      <if test="ext2 != null">
+        ext2,
+      </if>
+      <if test="ext3 != null">
+        ext3,
+      </if>
+      <if test="ext4 != null">
+        ext4,
+      </if>
+      <if test="ext5 != null">
+        ext5,
+      </if>
+      <if test="allowWithdrawBalance != null">
+        allow_withDraw_balance,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="subAcctBalance != null">
+        #{subAcctBalance,jdbcType=BIGINT},
+      </if>
+      <if test="creditbalance != null">
+        #{creditbalance,jdbcType=BIGINT},
+      </if>
+      <if test="debitbalance != null">
+        #{debitbalance,jdbcType=BIGINT},
+      </if>
+      <if test="frozenbalance != null">
+        #{frozenbalance,jdbcType=BIGINT},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null">
+        #{ext5,jdbcType=VARCHAR},
+      </if>
+      <if test="allowWithdrawBalance != null">
+        #{allowWithdrawBalance,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_finder_sub_account_balance
+    <set>
+      <if test="record.subAcctId != null">
+        sub_acct_id = #{record.subAcctId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subAcctBalance != null">
+        sub_acct_balance = #{record.subAcctBalance,jdbcType=BIGINT},
+      </if>
+      <if test="record.creditbalance != null">
+        CREDITBALANCE = #{record.creditbalance,jdbcType=BIGINT},
+      </if>
+      <if test="record.debitbalance != null">
+        DEBITBALANCE = #{record.debitbalance,jdbcType=BIGINT},
+      </if>
+      <if test="record.frozenbalance != null">
+        FROZENBALANCE = #{record.frozenbalance,jdbcType=BIGINT},
+      </if>
+      <if test="record.crtTime != null">
+        CRT_TIME = #{record.crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updTime != null">
+        UPD_TIME = #{record.updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext1 != null">
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null">
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null">
+        ext3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext4 != null">
+        ext4 = #{record.ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext5 != null">
+        ext5 = #{record.ext5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.allowWithdrawBalance != null">
+        allow_withDraw_balance = #{record.allowWithdrawBalance,jdbcType=BIGINT},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_finder_sub_account_balance
+    set sub_acct_id = #{record.subAcctId,jdbcType=VARCHAR},
+      sub_acct_balance = #{record.subAcctBalance,jdbcType=BIGINT},
+      CREDITBALANCE = #{record.creditbalance,jdbcType=BIGINT},
+      DEBITBALANCE = #{record.debitbalance,jdbcType=BIGINT},
+      FROZENBALANCE = #{record.frozenbalance,jdbcType=BIGINT},
+      CRT_TIME = #{record.crtTime,jdbcType=TIMESTAMP},
+      UPD_TIME = #{record.updTime,jdbcType=TIMESTAMP},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      ext3 = #{record.ext3,jdbcType=VARCHAR},
+      ext4 = #{record.ext4,jdbcType=VARCHAR},
+      ext5 = #{record.ext5,jdbcType=VARCHAR},
+      allow_withDraw_balance = #{record.allowWithdrawBalance,jdbcType=BIGINT},
+      version = #{record.version,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bill99.base.account.deal.domain.entity.SubAcctBalance">
+    update t_finder_sub_account_balance
+    <set>
+      <if test="subAcctBalance != null">
+        sub_acct_balance = #{subAcctBalance,jdbcType=BIGINT},
+      </if>
+      <if test="creditbalance != null">
+        CREDITBALANCE = #{creditbalance,jdbcType=BIGINT},
+      </if>
+      <if test="debitbalance != null">
+        DEBITBALANCE = #{debitbalance,jdbcType=BIGINT},
+      </if>
+      <if test="frozenbalance != null">
+        FROZENBALANCE = #{frozenbalance,jdbcType=BIGINT},
+      </if>
+      <if test="crtTime != null">
+        CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        UPD_TIME = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null">
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        ext4 = #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null">
+        ext5 = #{ext5,jdbcType=VARCHAR},
+      </if>
+      <if test="allowWithdrawBalance != null">
+        allow_withDraw_balance = #{allowWithdrawBalance,jdbcType=BIGINT},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=BIGINT},
+      </if>
+    </set>
+    where sub_acct_id = #{subAcctId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bill99.base.account.deal.domain.entity.SubAcctBalance">
+    update t_finder_sub_account_balance
+    set sub_acct_balance = #{subAcctBalance,jdbcType=BIGINT},
+      CREDITBALANCE = #{creditbalance,jdbcType=BIGINT},
+      DEBITBALANCE = #{debitbalance,jdbcType=BIGINT},
+      FROZENBALANCE = #{frozenbalance,jdbcType=BIGINT},
+      CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
+      UPD_TIME = #{updTime,jdbcType=TIMESTAMP},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR},
+      ext4 = #{ext4,jdbcType=VARCHAR},
+      ext5 = #{ext5,jdbcType=VARCHAR},
+      allow_withDraw_balance = #{allowWithdrawBalance,jdbcType=BIGINT},
+      version = #{version,jdbcType=BIGINT}
+    where sub_acct_id = #{subAcctId,jdbcType=VARCHAR}
+  </update>
+</mapper>

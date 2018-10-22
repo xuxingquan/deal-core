@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bill99.base.account.deal.infrastructure.persistence.DealJournalMapper">
+  <resultMap id="BaseResultMap" type="com.bill99.base.account.deal.domain.entity.DealJournal">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="journal_id" jdbcType="VARCHAR" property="journalId" />
+    <result column="orig_journal_id" jdbcType="VARCHAR" property="origJournalId" />
+    <result column="biz_code" jdbcType="VARCHAR" property="bizCode" />
+    <result column="out_trade_no" jdbcType="VARCHAR" property="outTradeNo" />
+    <result column="orig_out_trade_no" jdbcType="VARCHAR" property="origOutTradeNo" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="is_reverse" jdbcType="INTEGER" property="isReverse" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="deal_type" jdbcType="INTEGER" property="dealType" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+    <result column="app_id" jdbcType="VARCHAR" property="appId" />
+    <result column="error_code" jdbcType="VARCHAR" property="errorCode" />
+    <result column="error_message" jdbcType="VARCHAR" property="errorMessage" />
+    <result column="request_time" jdbcType="TIMESTAMP" property="requestTime" />
+    <result column="txn_end_time" jdbcType="TIMESTAMP" property="txnEndTime" />
+    <result column="crt_time" jdbcType="TIMESTAMP" property="crtTime" />
+    <result column="upd_time" jdbcType="TIMESTAMP" property="updTime" />
+    <result column="ext1" jdbcType="VARCHAR" property="ext1" />
+    <result column="ext2" jdbcType="VARCHAR" property="ext2" />
+    <result column="ext3" jdbcType="VARCHAR" property="ext3" />
+    <result column="ext4" jdbcType="VARCHAR" property="ext4" />
+    <result column="ext5" jdbcType="VARCHAR" property="ext5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, journal_id, orig_journal_id, biz_code, out_trade_no, orig_out_trade_no, order_id, 
+    is_reverse, status, deal_type, version, app_id, error_code, error_message, request_time, 
+    txn_end_time, crt_time, upd_time, ext1, ext2, ext3, ext4, ext5
+  </sql>
+  <select id="selectByExample" parameterType="com.bill99.base.account.deal.domain.entity.DealJournalExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from t_finder_base_account_deal_journal
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_finder_base_account_deal_journal
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_finder_base_account_deal_journal
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.bill99.base.account.deal.domain.entity.DealJournal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_finder_base_account_deal_journal (journal_id, orig_journal_id, biz_code, 
+      out_trade_no, orig_out_trade_no, order_id, 
+      is_reverse, status, deal_type, 
+      version, app_id, error_code, 
+      error_message, request_time, txn_end_time, 
+      crt_time, upd_time, ext1, 
+      ext2, ext3, ext4, ext5
+      )
+    values (#{journalId,jdbcType=VARCHAR}, #{origJournalId,jdbcType=VARCHAR}, #{bizCode,jdbcType=VARCHAR}, 
+      #{outTradeNo,jdbcType=VARCHAR}, #{origOutTradeNo,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, 
+      #{isReverse,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{dealType,jdbcType=INTEGER}, 
+      #{version,jdbcType=INTEGER}, #{appId,jdbcType=VARCHAR}, #{errorCode,jdbcType=VARCHAR}, 
+      #{errorMessage,jdbcType=VARCHAR}, #{requestTime,jdbcType=TIMESTAMP}, #{txnEndTime,jdbcType=TIMESTAMP}, 
+      #{crtTime,jdbcType=TIMESTAMP}, #{updTime,jdbcType=TIMESTAMP}, #{ext1,jdbcType=VARCHAR}, 
+      #{ext2,jdbcType=VARCHAR}, #{ext3,jdbcType=VARCHAR}, #{ext4,jdbcType=VARCHAR}, #{ext5,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bill99.base.account.deal.domain.entity.DealJournal">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_finder_base_account_deal_journal
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="journalId != null">
+        journal_id,
+      </if>
+      <if test="origJournalId != null">
+        orig_journal_id,
+      </if>
+      <if test="bizCode != null">
+        biz_code,
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no,
+      </if>
+      <if test="origOutTradeNo != null">
+        orig_out_trade_no,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="isReverse != null">
+        is_reverse,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="dealType != null">
+        deal_type,
+      </if>
+      <if test="version != null">
+        version,
+      </if>
+      <if test="appId != null">
+        app_id,
+      </if>
+      <if test="errorCode != null">
+        error_code,
+      </if>
+      <if test="errorMessage != null">
+        error_message,
+      </if>
+      <if test="requestTime != null">
+        request_time,
+      </if>
+      <if test="txnEndTime != null">
+        txn_end_time,
+      </if>
+      <if test="crtTime != null">
+        crt_time,
+      </if>
+      <if test="updTime != null">
+        upd_time,
+      </if>
+      <if test="ext1 != null">
+        ext1,
+      </if>
+      <if test="ext2 != null">
+        ext2,
+      </if>
+      <if test="ext3 != null">
+        ext3,
+      </if>
+      <if test="ext4 != null">
+        ext4,
+      </if>
+      <if test="ext5 != null">
+        ext5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="journalId != null">
+        #{journalId,jdbcType=VARCHAR},
+      </if>
+      <if test="origJournalId != null">
+        #{origJournalId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null">
+        #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origOutTradeNo != null">
+        #{origOutTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="isReverse != null">
+        #{isReverse,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="dealType != null">
+        #{dealType,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        #{version,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCode != null">
+        #{errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMessage != null">
+        #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="txnEndTime != null">
+        #{txnEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTime != null">
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null">
+        #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null">
+        #{ext5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map">
+    update t_finder_base_account_deal_journal
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.journalId != null">
+        journal_id = #{record.journalId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origJournalId != null">
+        orig_journal_id = #{record.origJournalId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bizCode != null">
+        biz_code = #{record.bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.outTradeNo != null">
+        out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.origOutTradeNo != null">
+        orig_out_trade_no = #{record.origOutTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isReverse != null">
+        is_reverse = #{record.isReverse,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.dealType != null">
+        deal_type = #{record.dealType,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null">
+        version = #{record.version,jdbcType=INTEGER},
+      </if>
+      <if test="record.appId != null">
+        app_id = #{record.appId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorCode != null">
+        error_code = #{record.errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorMessage != null">
+        error_message = #{record.errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.requestTime != null">
+        request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.txnEndTime != null">
+        txn_end_time = #{record.txnEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.crtTime != null">
+        crt_time = #{record.crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updTime != null">
+        upd_time = #{record.updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.ext1 != null">
+        ext1 = #{record.ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext2 != null">
+        ext2 = #{record.ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext3 != null">
+        ext3 = #{record.ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext4 != null">
+        ext4 = #{record.ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ext5 != null">
+        ext5 = #{record.ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update t_finder_base_account_deal_journal
+    set id = #{record.id,jdbcType=BIGINT},
+      journal_id = #{record.journalId,jdbcType=VARCHAR},
+      orig_journal_id = #{record.origJournalId,jdbcType=VARCHAR},
+      biz_code = #{record.bizCode,jdbcType=VARCHAR},
+      out_trade_no = #{record.outTradeNo,jdbcType=VARCHAR},
+      orig_out_trade_no = #{record.origOutTradeNo,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      is_reverse = #{record.isReverse,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      deal_type = #{record.dealType,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=INTEGER},
+      app_id = #{record.appId,jdbcType=VARCHAR},
+      error_code = #{record.errorCode,jdbcType=VARCHAR},
+      error_message = #{record.errorMessage,jdbcType=VARCHAR},
+      request_time = #{record.requestTime,jdbcType=TIMESTAMP},
+      txn_end_time = #{record.txnEndTime,jdbcType=TIMESTAMP},
+      crt_time = #{record.crtTime,jdbcType=TIMESTAMP},
+      upd_time = #{record.updTime,jdbcType=TIMESTAMP},
+      ext1 = #{record.ext1,jdbcType=VARCHAR},
+      ext2 = #{record.ext2,jdbcType=VARCHAR},
+      ext3 = #{record.ext3,jdbcType=VARCHAR},
+      ext4 = #{record.ext4,jdbcType=VARCHAR},
+      ext5 = #{record.ext5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bill99.base.account.deal.domain.entity.DealJournal">
+    update t_finder_base_account_deal_journal
+    <set>
+      <if test="journalId != null">
+        journal_id = #{journalId,jdbcType=VARCHAR},
+      </if>
+      <if test="origJournalId != null">
+        orig_journal_id = #{origJournalId,jdbcType=VARCHAR},
+      </if>
+      <if test="bizCode != null">
+        biz_code = #{bizCode,jdbcType=VARCHAR},
+      </if>
+      <if test="outTradeNo != null">
+        out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="origOutTradeNo != null">
+        orig_out_trade_no = #{origOutTradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="isReverse != null">
+        is_reverse = #{isReverse,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="dealType != null">
+        deal_type = #{dealType,jdbcType=INTEGER},
+      </if>
+      <if test="version != null">
+        version = #{version,jdbcType=INTEGER},
+      </if>
+      <if test="appId != null">
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCode != null">
+        error_code = #{errorCode,jdbcType=VARCHAR},
+      </if>
+      <if test="errorMessage != null">
+        error_message = #{errorMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        request_time = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="txnEndTime != null">
+        txn_end_time = #{txnEndTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="crtTime != null">
+        crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updTime != null">
+        upd_time = #{updTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="ext1 != null">
+        ext1 = #{ext1,jdbcType=VARCHAR},
+      </if>
+      <if test="ext2 != null">
+        ext2 = #{ext2,jdbcType=VARCHAR},
+      </if>
+      <if test="ext3 != null">
+        ext3 = #{ext3,jdbcType=VARCHAR},
+      </if>
+      <if test="ext4 != null">
+        ext4 = #{ext4,jdbcType=VARCHAR},
+      </if>
+      <if test="ext5 != null">
+        ext5 = #{ext5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bill99.base.account.deal.domain.entity.DealJournal">
+    update t_finder_base_account_deal_journal
+    set journal_id = #{journalId,jdbcType=VARCHAR},
+      orig_journal_id = #{origJournalId,jdbcType=VARCHAR},
+      biz_code = #{bizCode,jdbcType=VARCHAR},
+      out_trade_no = #{outTradeNo,jdbcType=VARCHAR},
+      orig_out_trade_no = #{origOutTradeNo,jdbcType=VARCHAR},
+      order_id = #{orderId,jdbcType=VARCHAR},
+      is_reverse = #{isReverse,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      deal_type = #{dealType,jdbcType=INTEGER},
+      version = #{version,jdbcType=INTEGER},
+      app_id = #{appId,jdbcType=VARCHAR},
+      error_code = #{errorCode,jdbcType=VARCHAR},
+      error_message = #{errorMessage,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      txn_end_time = #{txnEndTime,jdbcType=TIMESTAMP},
+      crt_time = #{crtTime,jdbcType=TIMESTAMP},
+      upd_time = #{updTime,jdbcType=TIMESTAMP},
+      ext1 = #{ext1,jdbcType=VARCHAR},
+      ext2 = #{ext2,jdbcType=VARCHAR},
+      ext3 = #{ext3,jdbcType=VARCHAR},
+      ext4 = #{ext4,jdbcType=VARCHAR},
+      ext5 = #{ext5,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

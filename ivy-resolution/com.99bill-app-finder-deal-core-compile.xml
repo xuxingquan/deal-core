@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ivy-report.xsl"?>
+<ivy-report version="1.0">
+	<info
+		organisation="com.99bill"
+		module="app-finder-deal-core"
+		revision="working@sh401030101750"
+		conf="compile"
+		confs="default, compile, zip, test"
+		date="20180821100123"/>
+	<dependencies>
+		<module organisation="j2ee" name="j2ee">
+			<revision name="1.4" status="release" pubdate="20121121152414" resolver="bill99_repository.public" artresolver="bill99_repository.public" downloaded="false" searched="false" default="true" conf="default" position="0">
+				<metadata-artifact status="no" details="" size="378" time="0" location="D:\Local_Repository\ivy-cache\j2ee\j2ee\ivy-1.4.xml" searched="false" original-local-location="D:\Local_Repository\ivy-cache\j2ee\j2ee\ivy-1.4.xml.original" origin-is-local="false" origin-location="http://192.168.52.211/j2ee/j2ee/ivys/ivy-1.4.xml"/>
+				<caller organisation="com.99bill" name="app-finder-deal-core" conf="compile" rev="1.4" rev-constraint-default="1.4" rev-constraint-dynamic="1.4" callerrev="working@sh401030101750"/>
+				<artifacts>
+					<artifact name="j2ee" type="jar" ext="jar" status="no" details="" size="1728932" time="0" location="D:\Local_Repository\ivy-cache\j2ee\j2ee\jars\j2ee-1.4.jar">
+						<origin-location is-local="false" location="http://192.168.52.211/j2ee/j2ee/jars/j2ee-1.4.jar"/>
+					</artifact>
+				</artifacts>
+			</revision>
+		</module>
+	</dependencies>
+</ivy-report>

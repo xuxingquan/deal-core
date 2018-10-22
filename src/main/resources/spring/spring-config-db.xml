@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <tx:annotation-driven transaction-manager="transactionManager" order="99" />
+
+
+   <!--  <bean id="accountDealDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="java:comp/env/BILL99/JDBC/MAMEXT" />
+    </bean> -->
+    
+    <!-- 测试专用 -->
+	 <bean id="accountDealDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://192.168.47.224:3310/mamacct001" />
+		<property name="username" value="mam_user" />
+		<property name="password" value="gqpjjmsdaf1f5y0d" />
+	</bean>
+	
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="accountDealDataSource" />
+    </bean>
+    
+    <bean id="accountDealSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+       <property name="dataSource" ref="accountDealDataSource" />
+       <property name="mapperLocations">
+          <array>
+              <value>classpath:com/bill99/base/account/deal/persistence/*.xml</value>
+          </array>
+       </property>
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+    </bean>
+
+   
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.bill99.base.account.deal.infrastructure.persistence" />
+		<property name="sqlSessionFactoryBeanName" value="accountDealSqlSessionFactory" />
+	</bean>
+	
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.bill99.base.account.acct.infrastructure.persistence" />
+		<property name="sqlSessionFactoryBeanName" value="accountDealSqlSessionFactory" />
+	</bean>
+
+    </beans>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	 http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean id="logAspect" class="com.bill99.mam.log.aop.LogAspect" />
+    
+    <bean id="validateAspect" class="com.bill99.mam.validate.aop.ValidateAspect">
+        <property name="validatorFactory" ref="validatorFactory" />
+    </bean>
+    
+    <bean id="exceptionMappingAspect" class="com.bill99.mam.exception.aop.ExceptionMappingAspect">
+        <property name="exceptionResponseResolver" ref="exceptionResponseResolver" />
+        <property name="messageSource" ref="messageSource" />
+    </bean>
+
+    <bean id="exceptionResponseResolver" class="com.bill99.mam.exception.resolver.DefaultExceptionRsponseResolver">
+        <property name="messageSource" ref="messageSource" />
+    </bean>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>com/bill99/mam/application/result-code-common</value>
+                <value>result-code</value>
+            </list>
+        </property>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="validatorFactory" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationProperties">
+            <props>
+                <prop key="hibernate.validator.fail_fast">true</prop>
+            </props>
+        </property>
+    </bean>
+
+    <aop:config proxy-target-class="false">
+        <aop:pointcut id="applicationPointCut" expression="execution(* com.bill99.base.account.deal.application.*.*(..))" />
+        <aop:aspect ref="logAspect" order="1">
+            <aop:around pointcut-ref="applicationPointCut" method="log" />
+        </aop:aspect>
+        <aop:aspect ref="exceptionMappingAspect" order="4">
+            <aop:around pointcut-ref="applicationPointCut" method="exceptionMapping" />
+        </aop:aspect>
+        <aop:aspect ref="validateAspect" order="7">
+            <aop:around pointcut-ref="applicationPointCut" method="validate" />
+        </aop:aspect>
+         <aop:aspect ref="uniqueAspect" order="11">
+            <aop:around pointcut-ref="applicationPointCut" method="preventRepetition" />
+        </aop:aspect>
+    </aop:config>
+
+</beans>
